@@ -1,0 +1,73 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Mux4Way16.hdl
+
+/**
+ * 4-way 16-bit multiplexor:
+ * out = a if sel == 00
+ *       b if sel == 01
+ *       c if sel == 10
+ *       d if sel == 11
+ */
+
+CHIP Mux4Way16 {
+    IN a[16], b[16], c[16], d[16], sel[2];
+    OUT out[16];
+
+    PARTS:
+    // Put your code here:
+    Not(in=sel[0], out=not0);
+    Not(in=sel[1], out=not1);
+    And(a=sel[0], b=sel[1], out=t1);
+    And(a=not1, b=sel[0], out=t2);
+    And(a=sel[1], b=not0, out=t3);
+    And(a=not0, b=not1, out=t4);
+    And(a=t1, b=d[0], out=u01); And(a=t2, b=b[0], out=u02); And(a=t3, b=c[0], out=u03); And(a=t4, b=a[0], out=u04);
+    Or(a=u01, b=u02, out=v01); Or(a=u03, b=u04, out=v02); Or(a=v01, b=v02, out=out[0]);
+
+    And(a=t1, b=d[1], out=u11); And(a=t2, b=b[1], out=u12); And(a=t3, b=c[1], out=u13); And(a=t4, b=a[1], out=u14);
+    Or(a=u11, b=u12, out=v11); Or(a=u13, b=u14, out=v12); Or(a=v11, b=v12, out=out[1]);
+
+    And(a=t1, b=d[2], out=u21); And(a=t2, b=b[2], out=u22); And(a=t3, b=c[2], out=u23); And(a=t4, b=a[2], out=u24);
+    Or(a=u21, b=u22, out=v21); Or(a=u23, b=u24, out=v22); Or(a=v21, b=v22, out=out[2]);
+
+    And(a=t1, b=d[3], out=u31); And(a=t2, b=b[3], out=u32); And(a=t3, b=c[3], out=u33); And(a=t4, b=a[3], out=u34);
+    Or(a=u31, b=u32, out=v31); Or(a=u33, b=u34, out=v32); Or(a=v31, b=v32, out=out[3]);
+
+    And(a=t1, b=d[4], out=u41); And(a=t2, b=b[4], out=u42); And(a=t3, b=c[4], out=u43); And(a=t4, b=a[4], out=u44);
+    Or(a=u41, b=u42, out=v41); Or(a=u43, b=u44, out=v42); Or(a=v41, b=v42, out=out[4]);
+
+    And(a=t1, b=d[5], out=u51); And(a=t2, b=b[5], out=u52); And(a=t3, b=c[5], out=u53); And(a=t4, b=a[5], out=u54);
+    Or(a=u51, b=u52, out=v51); Or(a=u53, b=u54, out=v52); Or(a=v51, b=v52, out=out[5]);
+
+    And(a=t1, b=d[6], out=u61); And(a=t2, b=b[6], out=u62); And(a=t3, b=c[6], out=u63); And(a=t4, b=a[6], out=u64);
+    Or(a=u61, b=u62, out=v61); Or(a=u63, b=u64, out=v62); Or(a=v61, b=v62, out=out[6]);
+
+    And(a=t1, b=d[7], out=u71); And(a=t2, b=b[7], out=u72); And(a=t3, b=c[7], out=u73); And(a=t4, b=a[7], out=u74);
+    Or(a=u71, b=u72, out=v71); Or(a=u73, b=u74, out=v72); Or(a=v71, b=v72, out=out[7]);
+
+    And(a=t1, b=d[8], out=u81); And(a=t2, b=b[8], out=u82); And(a=t3, b=c[8], out=u83); And(a=t4, b=a[8], out=u84);
+    Or(a=u81, b=u82, out=v81); Or(a=u83, b=u84, out=v82); Or(a=v81, b=v82, out=out[8]);
+
+    And(a=t1, b=d[9], out=u91); And(a=t2, b=b[9], out=u92); And(a=t3, b=c[9], out=u93); And(a=t4, b=a[9], out=u94);
+    Or(a=u91, b=u92, out=v91); Or(a=u93, b=u94, out=v92); Or(a=v91, b=v92, out=out[9]);
+
+    And(a=t1, b=d[10], out=u101); And(a=t2, b=b[10], out=u102); And(a=t3, b=c[10], out=u103); And(a=t4, b=a[10], out=u104);
+    Or(a=u101, b=u102, out=v101); Or(a=u103, b=u104, out=v102); Or(a=v101, b=v102, out=out[10]);
+
+    And(a=t1, b=d[11], out=u111); And(a=t2, b=b[11], out=u112); And(a=t3, b=c[11], out=u113); And(a=t4, b=a[11], out=u114);
+    Or(a=u111, b=u112, out=v111); Or(a=u113, b=u114, out=v112); Or(a=v111, b=v112, out=out[11]);
+
+    And(a=t1, b=d[12], out=u121); And(a=t2, b=b[12], out=u122); And(a=t3, b=c[12], out=u123); And(a=t4, b=a[12], out=u124);
+    Or(a=u121, b=u122, out=v121); Or(a=u123, b=u124, out=v122); Or(a=v121, b=v122, out=out[12]);
+
+    And(a=t1, b=d[13], out=u131); And(a=t2, b=b[13], out=u132); And(a=t3, b=c[13], out=u133); And(a=t4, b=a[13], out=u134);
+    Or(a=u131, b=u132, out=v131); Or(a=u133, b=u134, out=v132); Or(a=v131, b=v132, out=out[13]);
+
+    And(a=t1, b=d[14], out=u141); And(a=t2, b=b[14], out=u142); And(a=t3, b=c[14], out=u143); And(a=t4, b=a[14], out=u144);
+    Or(a=u141, b=u142, out=v141); Or(a=u143, b=u144, out=v142); Or(a=v141, b=v142, out=out[14]);
+
+    And(a=t1, b=d[15], out=u151); And(a=t2, b=b[15], out=u152); And(a=t3, b=c[15], out=u153); And(a=t4, b=a[15], out=u154);
+    Or(a=u151, b=u152, out=v151); Or(a=u153, b=u154, out=v152); Or(a=v151, b=v152, out=out[15]);
+}

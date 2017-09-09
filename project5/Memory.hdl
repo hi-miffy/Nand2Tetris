@@ -1,0 +1,53 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/05/Memory.hdl
+
+/**
+ * The complete address space of the Hack computer's memory,
+ * including RAM and memory-mapped I/O. 
+ * The chip facilitates read and write operations, as follows:
+ *     Read:  out(t) = Memory[address(t)](t)
+ *     Write: if load(t-1) then Memory[address(t-1)](t) = in(t-1)
+ * In words: the chip always outputs the value stored at the memory 
+ * location specified by address. If load==1, the in value is loaded 
+ * into the memory location specified by address. This value becomes 
+ * available through the out output from the next time step onward.
+ * Address space rules:
+ * Only the upper 16K+8K+1 words of the Memory chip are used. 
+ * Access to address>0x6000 is invalid. Access to any address in 
+ * the range 0x4000-0x5FFF results in accessing the screen memory 
+ * map. Access to address 0x6000 results in accessing the keyboard 
+ * memory map. The behavior in these addresses is described in the 
+ * Screen and Keyboard chip specifications given in the book.
+ */
+
+CHIP Memory {
+    IN in[16], load, address[15];
+    OUT out[16];
+
+    PARTS:
+    // Put your code here:
+	Not(in=load, out=notload);
+	Not(in=address[14], out=not14);
+	Not(in=address[13], out=not13);
+
+
+//m1 = not14 * outRAM
+	And(a=load, b=not14, out=load1);
+	RAM16K(in=in, load=load1, address=address[0..13], out=outRAM);
+	Mux16(a=false, b=outRAM, sel=not14, out=m1);
+//m2 = address[14] * not13 *screen
+	And(a=address[14], b=not13, out=load3);
+	And(a=load3, b=load, out=load2);
+	Screen(in=in, load=load2, address=address[0..12], out=screen);
+	Mux16(a=false, b=screen, sel=load3, out=m2);
+//m3 = notload* address[14] * address[13] * keyboard
+	Keyboard(out=keyboard);
+	And(a=notload, b=address[14], out=m6);
+	And(a=m6, b=address[13], out=m7);
+	Mux16(a=false, b=keyboard, sel=m7, out=m3);
+//out = m1 | m2 | m3
+	Or16(a=m1, b=m2, out=m4);
+	Or16(a=m4, b=m3, out=out);
+}
