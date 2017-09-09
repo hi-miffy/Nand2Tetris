@@ -91,8 +91,6 @@ CHIP CPU {
 	And(a=p3, b=not0, out=p4);
 	And(a=p4, b=instruction[1], out=p5);
 	And(a=p5, b=instruction[2], out=m7);
-//inc
-	//Not(in=m, out=o2);
 	
 	Or(a=m1, b=m2, out=q1);
 	Or(a=q1, b=m3, out=q2);
